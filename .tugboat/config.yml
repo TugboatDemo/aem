@@ -1,0 +1,3 @@
+services:
+  java:
+    image: docker/openjdk
