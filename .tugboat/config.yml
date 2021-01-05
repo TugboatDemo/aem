@@ -20,5 +20,6 @@ services:
         - wget -O /opt/aem/author/aem-author-p4502.jar "${AEM_FILE_URL}"
         - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack && cd -
 
-      build:
       start:
+        # Start server
+        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
