@@ -10,9 +10,8 @@ services:
         - curl -sL https://deb.nodesource.com/setup_14.x | sh
         - apt-get install -y openjdk-11-jdk maven
         
-        # Create directory structure.
+        # Create directory structure. license.properties is base64 encoded as a TB repos variable.
         - mkdir -p /opt/aem/author
-        # The license.properties file is base64 encoded and available as a Tugboat repository variable.
         - echo "${LICENSE_PROPERTIES}" | base64 --decode > /opt/aem/author/license.properties
         - ln -snf ${TUGBOAT_ROOT} /opt/aem/code
         
@@ -20,10 +19,10 @@ services:
         - wget -O /opt/aem/author/aem-author-p4502.jar "${AEM_FILE_URL}"
         - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack && cd -
           
-        # Configure Adobe public profile.
+        # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
 
-      build:
-        # Start server
+      start:
+        # Start standalone server for author instance.
         - CQ_PORT=4502 CQ_HOST=${TUGBOAT_DEFAULT_SERVICE_URL_HOST} /opt/aem/author/crx-quickstart/bin/start
