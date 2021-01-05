@@ -23,5 +23,5 @@ services:
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
 
-        start:
-          - CQ_PORT=4502 CQ_HOST="${TUGBOAT_DEFAULT_SERVICE_URL_HOST}" /opt/aem/author/crx-quickstart/bin/start
+      start:
+        - CQ_PORT=4502 CQ_HOST="${TUGBOAT_DEFAULT_SERVICE_URL_HOST}" /opt/aem/author/crx-quickstart/bin/start
