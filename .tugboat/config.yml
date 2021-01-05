@@ -1,12 +1,12 @@
 services:
 	debian:
-    image: tugboatqa/debian:10.6
+		image: tugboatqa/debian:10.6
 		default: true
 		expose: 4502
 		
-    commands:
+		commands:
 			init:
-        # Install Java SDK, Maven and Node JS.
+				# Install Java SDK, Maven and Node JS.
         - curl -sL https://deb.nodesource.com/setup_14.x | sh
         - apt-get install -y openjdk-11-jdk maven nodejs
 				
