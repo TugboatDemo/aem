@@ -6,7 +6,7 @@ services:
     
     commands:
       init:
-        # Install Java SDK, Maven and Node JS.
+        # Install Java SDK and Maven.
         - curl -sL https://deb.nodesource.com/setup_14.x | sh
         - apt-get install -y openjdk-11-jdk maven
         
