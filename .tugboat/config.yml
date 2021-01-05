@@ -24,5 +24,4 @@ services:
         - mvn help:effective-settings
 
       start:
-        - export CQ_HOST=${TUGBOAT_DEFAULT_SERVICE_URL_HOST}
-        - /opt/aem/author/crx-quickstart/bin/start &
+        - CQ_HOST=${TUGBOAT_DEFAULT_SERVICE_URL_HOST} /opt/aem/author/crx-quickstart/bin/start &
