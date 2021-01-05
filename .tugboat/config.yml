@@ -17,7 +17,7 @@ services:
         
         # Download AEM quickstart file and install
         - wget -O /opt/aem/author/aem-author-p4502.jar "${AEM_FILE_URL}"
-        - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack && cd -
+        - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack
           
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
