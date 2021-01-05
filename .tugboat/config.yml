@@ -6,7 +6,7 @@ services:
     
     commands:
       init:
-        # Install Java SDK, Maven and Node JS.
+        # Install Java SDK and Maven.
         - curl -sL https://deb.nodesource.com/setup_14.x | sh
         - apt-get install -y openjdk-11-jdk maven
         
@@ -17,7 +17,7 @@ services:
         
         # Download AEM quickstart file and install
         - wget -O /opt/aem/author/aem-author-p4502.jar "${AEM_FILE_URL}"
-        - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack && cd -
+        - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack
           
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
