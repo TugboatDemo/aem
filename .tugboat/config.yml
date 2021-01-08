@@ -1,5 +1,5 @@
 services:
-  debian:
+  author:
     image: tugboatqa/debian:10
     default: true
     expose: 4502
@@ -21,6 +21,27 @@ services:
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
-
-      start:
-        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        
+  publish:
+    image: tugboatqa/debian:10
+    checkout: true
+    default: false
+    expose: 4503
+    
+    commands:
+      init:
+        # Install Java SDK and Maven.
+        - apt-get update && apt-get install -y openjdk-11-jdk maven
+        
+        # Create directory structure. license.properties is base64 encoded as a TB repos variable.
+        - mkdir -p /opt/aem/publish
+        - echo "${LICENSE_PROPERTIES}" | base64 --decode > /opt/aem/publish/license.properties
+        - ln -snf ${TUGBOAT_ROOT} /opt/aem/code
+        
+        # Download AEM quickstart file and install
+        - wget -O /opt/aem/publish/aem-publish-p4503.jar "${AEM_FILE_URL}"
+        - cd /opt/aem/publish && java -jar aem-publish-p4503.jar -unpack
+          
+        # Configure the Adobe public profile.
+        - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
+        - mvn help:effective-settings
