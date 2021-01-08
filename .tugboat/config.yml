@@ -22,6 +22,7 @@ services:
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
         
+      start:
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
         - sleep 15
         
@@ -53,5 +54,6 @@ services:
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
         
+      start:
         - CQ_PORT=4503 /opt/aem/publish/crx-quickstart/bin/start
         - sleep 15
