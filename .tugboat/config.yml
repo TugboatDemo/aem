@@ -44,6 +44,10 @@ services:
         # Download AEM quickstart file and install
         - wget -O /opt/aem/publish/aem-publish-p4503.jar "${AEM_FILE_URL}"
         - cd /opt/aem/publish && java -jar aem-publish-p4503.jar -unpack
+        # Make sure the publish instance doesn't become the author.
+        # https://experienceleague.adobe.com/docs/experience-manager-64/deploying/deploying/custom-standalone-install.html#installing-aem-in-the-amazon-ec-environment
+        - cd /opt/aem/publish && java -jar aem-publish-p4503.jar -r publish
+        - sed -n 's/CQ_RUNMODE='\''author'\''/CQ_RUNMODE='\''publish'\''/p' /opt/aem/publish/crx-quickstart/bin/start
           
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
