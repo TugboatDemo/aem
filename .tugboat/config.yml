@@ -24,6 +24,7 @@ services:
         
       start:
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        - curl -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
 
   publish:
     image: tugboatqa/debian:10
