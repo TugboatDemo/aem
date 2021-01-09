@@ -47,6 +47,7 @@ services:
         - cd /opt/aem/publish && java -jar aem-publish-p4503.jar -unpack
         # Make sure the publish instance doesn't become the author.
         - sed -n 's/CQ_RUNMODE='\''author'\''/CQ_RUNMODE='\''publish'\''/p' /opt/aem/publish/crx-quickstart/bin/start
+        - sed -n 's/CQ_PORT=4502/CQ_PORT=4503/p' /opt/aem/publish/crx-quickstart/bin/start
           
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
