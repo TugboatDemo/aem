@@ -26,7 +26,6 @@ services:
         - chmod a+x ${TUGBOAT_ROOT}/.tugboat/resources/aem-server.sh
         - mkdir -p /etc/service/crx && touch /etc/service/crx/run
         - echo -e "#!/bin/sh\nexec ${TUGBOAT_ROOT}/.tugboat/resources/aem-server.sh start" >> "/etc/service/crx/run"
-        - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/aem-server.sh /etc/service/crx/run
         - chmod a+x /etc/service/crx/run
         
       start:
