@@ -22,13 +22,8 @@ services:
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
         
-        # Make a runit script to automatically run aem 
-        - chmod a+x ${TUGBOAT_ROOT}/.tugboat/resources/aem-server.sh
-        - mkdir -p /etc/service/crx && touch /etc/service/crx/run
-        - echo "#!/bin/sh\nexec ${TUGBOAT_ROOT}/.tugboat/resources/aem-server.sh start" >> "/etc/service/crx/run"
-        - chmod a+x /etc/service/crx/run
-        
       start:
+        - chmod a+x ${TUGBOAT_ROOT}/.tugboat/resources/aem-server.sh start
         # CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
         # curl -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
 
@@ -49,12 +44,12 @@ services:
         - ln -snf ${TUGBOAT_ROOT} /opt/aem/code
         
         # Download AEM quickstart file and install
-        - wget -O /opt/aem/publish/aem-publish-p4503.jar "${AEM_FILE_URL}"
-        - cd /opt/aem/publish && java -jar aem-publish-p4503.jar -unpack
+        # wget -O /opt/aem/publish/aem-publish-p4503.jar "${AEM_FILE_URL}"
+        # cd /opt/aem/publish && java -jar aem-publish-p4503.jar -unpack
           
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
-        - mvn help:effective-settings
+        # mvn help:effective-settings
         
       start:
         # CQ_PORT=4503 CQ_RUNMODE='publish' /opt/aem/publish/crx-quickstart/bin/start
