@@ -30,6 +30,7 @@ services:
     image: tugboatqa/debian:10
     checkout: true
     default: false
+    depends: author
     expose: 4503
     
     commands:
