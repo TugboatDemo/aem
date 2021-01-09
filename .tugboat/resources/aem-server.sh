@@ -16,34 +16,34 @@ function returnsCode() {
 export -f returnsCode
 
 if [ "$1" == "quickstart" ]; then
-  CRX/bin/quickstart > /dev/null 2>&1 & disown
+  $CRX/bin/quickstart > /dev/null 2>&1 & disown
 fi
 
 if [ "$1" == "stop" ]; then
-  CRX/bin/stop
+  $CRX/bin/stop
   timeout 60 bash -c 'until returnsCode http://localhost:4502 000; do sleep 0.5; done'
 fi
 
 if [ "$1" == "start" ]; then
-  CRX/bin/start
+  $CRX/bin/start
   timeout 60 bash -c 'until returnsCode http://localhost:4502 401; do sleep 0.5; done'
 fi
 
 if [ "$1" == "status" ]; then
-  CRX/bin/status
+  $CRX/bin/status
 fi
 
 if [ "$1" == "log" ]; then
-  tail -f CRX/logs/error.log
+  tail -f $CRX/logs/error.log
 fi
 
 if [ "$1" == "install" ]; then
-  cp "${@:2}" CRX/install/
+  cp "${@:2}" $CRX/install/
 fi
 
 if [ "$1" == "restart" ]; then
-  CRX/bin/stop
+  $CRX/bin/stop
   timeout 60 bash -c 'until returnsCode http://localhost:4502 000; do sleep 0.5; done'
-  CRX/bin/start
+  $CRX/bin/start
   timeout 60 bash -c 'until returnsCode http://localhost:4502 401; do sleep 0.5; done'
 fi
