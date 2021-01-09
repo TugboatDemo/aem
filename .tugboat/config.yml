@@ -24,13 +24,11 @@ services:
         
       start:
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        - sleep 15
         
   publish:
     image: tugboatqa/debian:10
     checkout: true
     default: false
-    depends: author
     expose: 4503
     
     commands:
@@ -56,4 +54,3 @@ services:
         
       start:
         - CQ_PORT=4503 /opt/aem/publish/crx-quickstart/bin/start
-        - sleep 15
