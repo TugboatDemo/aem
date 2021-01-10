@@ -12,7 +12,7 @@ services:
         # Create directory structure. license.properties is base64 encoded as a TB repos variable.
         - mkdir -p /opt/aem/author
         - echo "${LICENSE_PROPERTIES}" | base64 --decode > /opt/aem/author/license.properties
-        - ln -snf ${TUGBOAT_ROOT} /opt/aem/code
+        # ln -snf ${TUGBOAT_ROOT} /opt/aem/code
         
         # Download AEM quickstart file and install
         - wget -O /opt/aem/author/aem-author-p4502.jar "${AEM_FILE_URL}"
@@ -21,12 +21,9 @@ services:
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
-        
-        - chmod a+x ${TUGBOAT_ROOT}/.tugboat/resources/aem-server.sh
-        
+                
       start:
-        - ${TUGBOAT_ROOT}/.tugboat/resources/aem-server.sh start
-        - curl -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
+        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
 
   publish:
     image: tugboatqa/debian:10
