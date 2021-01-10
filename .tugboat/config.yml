@@ -28,7 +28,7 @@ services:
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
         # Update the host of the default replication agent from localhost to the publish service.
         # This will return a 404 because the system won't be fully booted and won't work.
-        # curl -s -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
+        # curl -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
 
   publish:
     image: tugboatqa/debian:10
