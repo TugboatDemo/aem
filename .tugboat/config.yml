@@ -21,6 +21,9 @@ services:
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
+      build:
+        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        - curl --silent --retry 50 --retry-delay 1 --retry-connrefused --max-time 4 --retry-max-time 240 localhost:4502 > /dev/null || true
                 
       start:
         # Note: This command will take minutes to run on the first boot.
