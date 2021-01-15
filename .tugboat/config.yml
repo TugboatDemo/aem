@@ -17,12 +17,10 @@ services:
         # Download AEM quickstart file and install
         - wget -O /opt/aem/author/aem-author-p4502.jar "${AEM_FILE_URL}"
         - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack
-          
-        # Configure the Adobe public profile.
-        - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
-        
+                  
+        # Start aem and wait for a 401 authentication response
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        - bash -c "while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done"
+        # bash -c "while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done"
 
       start:
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
