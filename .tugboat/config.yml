@@ -20,8 +20,8 @@ services:
                   
         # Start aem and wait for a 401 authentication response
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        # bash -c "while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done"
+        - bash -c "while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done"
 
       start:
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        # bash -c "while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done"
+        - bash -c "while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done"
