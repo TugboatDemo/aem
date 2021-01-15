@@ -22,8 +22,8 @@ services:
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        - while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done
+        - bash -c "while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done"
 
       start:
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        - while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done
+        - bash -c "while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done"
