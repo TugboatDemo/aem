@@ -24,10 +24,11 @@ services:
         
         # Make a runit script to automatically run aem 
         - mkdir -p /etc/service/aem && touch /etc/service/aem/run
-        - echo "#!/bin/sh -e\nexec 2>&1\nexec CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start" >> "/etc/service/aem/run"
+        - echo "#!/bin/sh -eu\nexec 2>&1\nexec CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start" >> "/etc/service/aem/run"
         - chmod a+x /etc/service/aem/run
                 
       start:
+        - sv restart aem
         # Note: This command will take minutes to run on the first boot.
         # tail -f /opt/aem/author/crx-quickstart/logs/error.log to watch it.
         # CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
