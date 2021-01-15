@@ -22,8 +22,8 @@ services:
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        - curl -s --retry 50 --retry-delay 1 --retry-connrefused -m 4 --retry-max-time 240 localhost:4502 > /dev/null || true
-                
+        - while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done
+
       start:
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        - curl -s --retry 50 --retry-delay 1 --retry-connrefused -m 4 --retry-max-time 240 localhost:4502 > /dev/null || true
+        - while [[ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]]; do sleep 5; done
