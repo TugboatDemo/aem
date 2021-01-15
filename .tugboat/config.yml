@@ -23,7 +23,8 @@ services:
         
         # Make a runit script to automatically run aem 
         - mkdir -p /etc/service/aem && touch /etc/service/aem/run
-        - echo "#!/bin/sh\nexec 2>&1\nexec CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start" >> "/etc/service/aem/run"
+        - echo "#!/bin/sh\nexec 2>&1\nexec /opt/aem/author/crx-quickstart/bin/start\n" >> "/etc/service/aem/run"
+        - echo "curl -s --retry 50 --retry-delay 1 --retry-connrefused -m 4 --retry-max-time 240 localhost:4502 > /dev/null || true" >> "/etc/service/aem/run"
         - chmod a+x /etc/service/aem/run
                 
       start:
