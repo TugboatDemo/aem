@@ -22,13 +22,12 @@ services:
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         
         # Make a runit script to automatically run aem 
-        # mkdir -p /etc/service/aem && touch /etc/service/aem/run
-        # echo "#!/bin/sh\nexec 2>&1\nexec /opt/aem/author/crx-quickstart/bin/start\n" >> "/etc/service/aem/run"
-        # chmod a+x /etc/service/aem/run
+        - mkdir -p /etc/service/aem && touch /etc/service/aem/run
+        - echo "#!/bin/sh\nexec 2>&1\nexec /opt/aem/author/crx-quickstart/bin/start\n" >> "/etc/service/aem/run"
+        - chmod a+x /etc/service/aem/run
                 
       start:
-        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start &
-        - curl -s --retry 50 --retry-delay 1 --retry-connrefused -m 4 --retry-max-time 240 localhost:4502 > /dev/null || true
+        - timeout 60 bash -c 'until nc -vzw 2 localhost 4502; do sleep 2; done'
         # sv restart aem
         # Note: This command will take minutes to run on the first boot.
         # tail -f /opt/aem/author/crx-quickstart/logs/error.log to watch it.
