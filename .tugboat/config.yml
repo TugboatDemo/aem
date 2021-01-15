@@ -21,17 +21,9 @@ services:
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         
-        # Make a runit script to automatically run aem 
-        - mkdir -p /etc/service/aem && touch /etc/service/aem/run
-        - echo "#!/bin/sh\nexec 2>&1\nexec /opt/aem/author/crx-quickstart/bin/start\n" >> "/etc/service/aem/run"
-        - chmod a+x /etc/service/aem/run
+        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        - curl -s --retry 50 --retry-delay 1 --retry-connrefused -m 4 --retry-max-time 240 localhost:4502 > /dev/null || true
                 
       start:
-        - timeout 60 bash -c 'until nc -vzw 2 localhost 4502; do sleep 2; done'
-        # sv restart aem
-        # Note: This command will take minutes to run on the first boot.
-        # tail -f /opt/aem/author/crx-quickstart/logs/error.log to watch it.
-        # CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        # Update the host of the default replication agent from localhost to the publish service.
-        # This will return a 404 because the system won't be fully booted and won't work.
-        # curl -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
+        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        - curl -s --retry 50 --retry-delay 1 --retry-connrefused -m 4 --retry-max-time 240 localhost:4502 > /dev/null || true
