@@ -7,7 +7,7 @@ services:
     commands:
       init:
         # Install Java SDK and Maven.
-        - apt-get update && apt-get install -y openjdk-11-jdk maven
+        - apt-get update && apt-get install -y openjdk-11-jdk
         
         # Create directory structure. license.properties is base64 encoded as a TB repos variable.
         - mkdir -p /opt/aem/author
@@ -20,7 +20,6 @@ services:
           
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
-        - mvn help:effective-settings
         
         # Make a runit script to automatically run aem 
         - mkdir -p /etc/service/aem && touch /etc/service/aem/run
