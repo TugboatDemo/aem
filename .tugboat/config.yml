@@ -19,9 +19,9 @@ services:
         - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack
                   
         # Start aem and wait for a 401 authentication response
-        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        - CQ_PORT=4502 CQ_JVM_OPTS='-server -Xmx1536m -Xms1536m -XX:MaxPermSize=512M -Djava.awt.headless=true' /opt/aem/author/crx-quickstart/bin/start
         - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]; do sleep 5; done
 
       start:
-        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        - CQ_PORT=4502 CQ_JVM_OPTS='-server -Xmx1536m -Xms1536m -XX:MaxPermSize=512M -Djava.awt.headless=true' /opt/aem/author/crx-quickstart/bin/start
         - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]; do sleep 5; done
