@@ -28,7 +28,7 @@ services:
         - chmod a+x /etc/service/aem/run
                 
       start:
-        - sv restart aem
+        # sv restart aem
         # Note: This command will take minutes to run on the first boot.
         # tail -f /opt/aem/author/crx-quickstart/logs/error.log to watch it.
         # CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
