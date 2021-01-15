@@ -21,13 +21,16 @@ services:
         # Configure the Adobe public profile.
         - cp -r ${TUGBOAT_ROOT}/.tugboat/resources/.m2 ~/m2
         - mvn help:effective-settings
-      build:
-        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        
+        # Make a runit script to automatically run aem 
+        - mkdir -p /etc/service/crx && touch /etc/service/crx/run
+        - echo -e "#!/bin/sh -eu\exec 2>&1\nexec CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start" >> "/etc/service/aem/run"
+        - chmod a+x /etc/service/aem/run
                 
       start:
         # Note: This command will take minutes to run on the first boot.
         # tail -f /opt/aem/author/crx-quickstart/logs/error.log to watch it.
-        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        # CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
         # Update the host of the default replication agent from localhost to the publish service.
         # This will return a 404 because the system won't be fully booted and won't work.
         # curl -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
