@@ -29,6 +29,9 @@ services:
         # Start aem a second time (faster) and wait for a 401 response.
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
         - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "401" ]; do sleep 5; done
+
+        # Update the host of the default replication agent from localhost to the publish service.
+        - curl -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
         
   publish:
     image: tugboatqa/debian:10
@@ -52,7 +55,9 @@ services:
         
         # Start aem for the first time
         - CQ_PORT=4503 CQ_RUNMODE='publish' /opt/aem/publish/crx-quickstart/bin/start
+        - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4503)" != "200" ]; do sleep 5; done
       
       start:
         - CQ_PORT=4503 CQ_RUNMODE='publish' /opt/aem/publish/crx-quickstart/bin/start
+        - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4503)" != "200" ]; do sleep 5; done
   
