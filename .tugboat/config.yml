@@ -18,17 +18,17 @@ services:
         - wget -O /opt/aem/author/aem-author-p4502.jar "${AEM_FILE_URL}"
         - cd /opt/aem/author && java -jar aem-author-p4502.jar -unpack
                   
-        # Start aem for the first time and wait for a 401 authentication response
+        # Start aem for the first time and wait for a 200, authenticated response
+        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        - while [ "$(curl -u admin:admin --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "200" ]; do sleep 5; done
+        
+      start:
+        # Start aem a second time (faster) 
         - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
         - while [ "$(curl -u admin:admin --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "200" ]; do sleep 5; done
         
         # Update the host of the default replication agent from localhost to the publish service.
         - curl -u admin:admin -F"sling:resourceType=cq/replication/components/agent" -F"transportUri=http://publish:4503/bin/receive?sling:authRequestLogin=1" http://localhost:4502/etc/replication/agents.author/publish/jcr:content
-
-      start:
-        # Start aem a second time (faster) and wait for a 401 response.
-        # CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        # while [ "$(curl -u admin:admin --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "200" ]; do sleep 5; done
         
   publish:
     image: tugboatqa/debian:10
@@ -55,6 +55,6 @@ services:
         - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4503)" != "200" ]; do sleep 5; done
       
       start:
-        # CQ_PORT=4503 CQ_RUNMODE='publish' /opt/aem/publish/crx-quickstart/bin/start
-        # while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4503)" != "200" ]; do sleep 5; done
+        - CQ_PORT=4503 CQ_RUNMODE='publish' /opt/aem/publish/crx-quickstart/bin/start
+        - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4503)" != "200" ]; do sleep 5; done
   
