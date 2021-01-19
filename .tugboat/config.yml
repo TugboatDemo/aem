@@ -27,8 +27,8 @@ services:
 
       start:
         # Start aem a second time (faster) and wait for a 401 response.
-        - CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
-        - while [ "$(curl -u admin:admin --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "200" ]; do sleep 5; done
+        # CQ_PORT=4502 /opt/aem/author/crx-quickstart/bin/start
+        # while [ "$(curl -u admin:admin --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4502)" != "200" ]; do sleep 5; done
         
   publish:
     image: tugboatqa/debian:10
@@ -55,6 +55,6 @@ services:
         - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4503)" != "200" ]; do sleep 5; done
       
       start:
-        - CQ_PORT=4503 CQ_RUNMODE='publish' /opt/aem/publish/crx-quickstart/bin/start
-        - while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4503)" != "200" ]; do sleep 5; done
+        # CQ_PORT=4503 CQ_RUNMODE='publish' /opt/aem/publish/crx-quickstart/bin/start
+        # while [ "$(curl --head --location --connect-timeout 5 -s -o /dev/null -w ''%{http_code}'' localhost:4503)" != "200" ]; do sleep 5; done
   
